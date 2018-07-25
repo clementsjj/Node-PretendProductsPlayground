@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var userController = require('../controllers/userController');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -13,16 +14,23 @@ router.get('/login', function(req, res){
 router.post('/login', function(req, res, next){
   userController.loginUser(req.body, function(err, user){
     if(err){
-      res.json({
-        message: 'Fail', 
-        error: err
+      res.render('result', {
+        message: 'Error of some sort'
+      
+      //res.json({
+        //message: 'Fail', 
+        //error: err
       });
       return;
     }
     if(user === null){
-      res.status(400).json({
-        message: 'Fail', 
-        error: 'Check your username and password'
+      res.render('result', {
+        message: "User does not exist. Please create user.",
+        data: user
+      
+      //res.status(400).json({
+       // message: 'Fail', 
+       // error: 'Check your username and password'
       });
       return;
     } //end user===null
